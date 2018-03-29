@@ -70,7 +70,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
             }
         });
 
-        User.associate = (models: IModels): void => {};
+        User.associate = (models: IModels): void => { };
 
         //Método de instancia
         User.prototype.isPassword = (encodePassword: string, password: string): boolean => {

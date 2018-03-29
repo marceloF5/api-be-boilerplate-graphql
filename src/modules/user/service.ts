@@ -1,12 +1,12 @@
-import userModels, * as UserModel from './../../models/user.models';
-const model = require('../../models/user.models');
+import * as model from '../../models/index';
+//const model = require('../../models/index');
 
 class User {
     
     constructor() { }
 
-    create(user: any){        
-        return //model.User.create(user);
+    create(user: any){                                               
+        return model.default.User.create(user);//model.User.create(user);
     }
 
     /*getAll(): Bluebird<IUser[]>{
