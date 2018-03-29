@@ -13,6 +13,10 @@ class App {
             schema: schema_1.default,
             graphiql: process.env.NODE_ENV === 'development'
         }));
+        //this.router(this.express);       
+    }
+    router(app) {
+        //Routes.initRoutes(app);
     }
 }
 exports.default = new App().express;
