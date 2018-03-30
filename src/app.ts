@@ -18,11 +18,11 @@ class App {
             schema: schema,
             graphiql: process.env.NODE_ENV === 'development'
         })); 
-        //this.router(this.express);       
+        this.router(this.express);       
     }
 
     private router(app: express.Application): void {
-        //Routes.initRoutes(app);
+        Routes.initRoutes(app);
     }
 }
 

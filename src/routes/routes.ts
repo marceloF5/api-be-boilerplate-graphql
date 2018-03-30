@@ -1,11 +1,15 @@
 import { Application, Request, Response } from 'express';
 
-import { IModels } from './../interfaces/models.interface';
+import UserRoutes from './../modules/user/routes';
 
-interface Routes extends IModels{   
+class Routes {   
 
-    initRoutes(app: Application): void;
+    constructor() { }
+
+    initRoutes(app: Application): void {
+        UserRoutes.initUserRoute(app); 
+    }
 
 }
 
-export default Routes;
+export default new Routes();

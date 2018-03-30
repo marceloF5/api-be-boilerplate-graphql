@@ -7,5 +7,10 @@ class User {
     create(user) {
         return model.default.User.create(user); //model.User.create(user);
     }
+    getAll() {
+        return model.default.User.findAll({
+            order: ['name']
+        });
+    }
 }
 exports.default = new User();

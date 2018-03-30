@@ -8,13 +8,16 @@ class UserController {
 
     constructor() { }
 
-    /*getAllUsers(req: Request, res: Response) {
+    getAllUsers(req: Request, res: Response) {
         User.getAll()
-            .then(_.partial(Handlers.onSuccess, res))        
-            .catch(_.partial(Handlers.onError, res, `Erro ao buscar os usuários`))
+            .then(data => {
+                res.status(200).json({data})
+            })
+            //.then(_.partial(Handlers.onSuccess, res))        
+            //.catch(_.partial(Handlers.onError, res, `Erro ao buscar os usuários`))
     }
 
-    getById(req: Request, res: Response) {
+    /*getById(req: Request, res: Response) {
         const userId = parseInt(req.params.id);        
         User.getById(userId)
             .then(_.partial(Handlers.onSuccess, res))        
@@ -23,11 +26,20 @@ class UserController {
     }*/
 
     createUser(req: Request, res: Response) {
-        return User.create(res);
-        /*User.create(req.body)
-            .then(_.partial(Handlers.onSuccess, res))        
-            .catch(_.partial(Handlers.dbErrorHandler, res))
-            .catch(_.partial(Handlers.onError, res, `Erro ao inserir novo usuário`))                       */
+        //return res.status(200).json({'name': 'Marcelo'});//User.create(res);
+        req.body = {
+            name: 'Marcelo',
+            email: 'mp.fortunato88@gmail.com',
+            password: '1234'
+        }
+        User.create(req.body)
+            .then(data => {
+                console.log(data);
+                res.status(200).json({data});
+            })
+            //.then(_.partial(Handlers.onSuccess, res))        
+            //.catch(_.partial(Handlers.dbErrorHandler, res))
+            //.catch(_.partial(Handlers.onError, res, `Erro ao inserir novo usuário`))                       
     }
 /*
     updateUser(req: Request, res: Response) {

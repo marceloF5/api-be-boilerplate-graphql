@@ -1,4 +1,5 @@
 import * as model from '../../models/index';
+import { IUserModel, IUserInstance } from '../../models/user.models';
 //const model = require('../../models/index');
 
 class User {
@@ -9,7 +10,13 @@ class User {
         return model.default.User.create(user);//model.User.create(user);
     }
 
-    /*getAll(): Bluebird<IUser[]>{
+    getAll() {
+        return model.default.User.findAll({ 
+            order: ['name']
+        })       
+    }
+/*
+    getAll(): Bluebird<IUser[]> {
         return model.User.findAll({
             order: ['name']
         })
