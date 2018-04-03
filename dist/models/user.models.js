@@ -40,8 +40,10 @@ exports.default = (sequelize, DataTypes) => {
                 user.password = bcryptjs_1.hashSync(user.password, salt);
             },
             beforeUpdate: (user, options) => {
-                const salt = bcryptjs_1.genSaltSync();
-                user.password = bcryptjs_1.hashSync(user.password, salt);
+                if (user.changed('password')) {
+                    const salt = bcryptjs_1.genSaltSync();
+                    user.password = bcryptjs_1.hashSync(user.password, salt);
+                }
             }
         }
     });

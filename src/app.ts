@@ -3,6 +3,7 @@ import * as graphqlHTTP from 'express-graphql';
 
 import schema from './graphql/schema';
 import Routes from './routes/routes';
+import db from './models/index';
 
 class App {
 
@@ -14,10 +15,19 @@ class App {
     }
 
     private middleware(): void {
-        this.express.use('/graphql', graphqlHTTP({
-            schema: schema,
-            graphiql: process.env.NODE_ENV === 'development'
-        })); 
+        this.express.use('/graphql', 
+            // Contexto / Instância do Banco
+            (req, res, next) => {
+                req['context'] = {};
+                req['context'].db = db;
+                next();                
+            },
+            graphqlHTTP((req) => ({
+                schema: schema,
+                graphiql: process.env.NODE_ENV === 'development',
+                context: req['context']
+            }))
+        ); 
         this.router(this.express);       
     }
 

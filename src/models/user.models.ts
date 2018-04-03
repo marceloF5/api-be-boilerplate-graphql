@@ -63,8 +63,10 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes):
                      user.password = hashSync(user.password, salt);
                 },
                 beforeUpdate: (user: IUserInstance, options: Sequelize.CreateOptions): void => {
-                    const salt = genSaltSync();
-                    user.password = hashSync(user.password, salt);
+                    if (user.changed('password')) {
+                        const salt = genSaltSync();
+                        user.password = hashSync(user.password, salt);
+                    }
                }
                 
             }
