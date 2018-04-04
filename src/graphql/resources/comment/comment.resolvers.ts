@@ -3,6 +3,7 @@ import { Transaction } from "sequelize";
 
 import { IDbConnection } from "../../../interfaces/dbConnection.interface";
 import { ICommentInstance } from "../../../models/comment.models";
+import { handleError } from "../../../utils/utils";
 
 
 export const commentsResolvers = {
@@ -11,22 +12,26 @@ export const commentsResolvers = {
         user: (comment, args, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
           return db.User
               .findById(comment.get('user'))
+              .catch(handleError)
         },
 
         post: (comment, args, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
           return db.Post
               .findById(comment.get('post'))
+              .catch(handleError)
         }
     },
 
     Query: {
         commentsByPost: (comment, { postId, first = 10, offset = 0 }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
+            postId = parseInt(postId);
             return db.Comment
                 .findAll({
                     where: { post: postId },
                     limit: first,
                     offset: offset
                 })
+                .catch(handleError)
         }
     },
 
@@ -36,6 +41,7 @@ export const commentsResolvers = {
                 return db.Comment
                     .create(input, {transaction: t});
             })
+            .catch(handleError)
         },
 
         updateComment: (comment, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -48,6 +54,7 @@ export const commentsResolvers = {
                         return comment.update( input, {transaction: t});
                     })
             })
+            .catch(handleError)
         },
 
         deleteComment: (comment, { id }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -61,6 +68,7 @@ export const commentsResolvers = {
                           .then(comment => !!comment);
                   })
           })
+          .catch(handleError)
       }
 
     }

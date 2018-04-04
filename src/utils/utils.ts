@@ -1,4 +1,5 @@
 import { Server } from "http";
+import { Promise } from "bluebird";
 
 export const normalizePort = (val: number | string): number | string | boolean => {
     let port: number = (typeof val === 'string') ? parseInt(val) : val;
@@ -33,4 +34,10 @@ export const onListening = (server: Server) => {
         let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
         console.log(`Listening at ${bind}...`);
     }
+}
+
+export const handleError = (error: Error) => {
+    let errorMessage: string = `${error.name}: ${error.message}`;
+    console.log(errorMessage);
+    return Promise.reject(new Error(errorMessage))
 }

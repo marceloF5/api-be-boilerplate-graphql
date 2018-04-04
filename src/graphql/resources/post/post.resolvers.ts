@@ -3,6 +3,7 @@ import { Transaction } from "sequelize";
 
 import { IDbConnection } from "../../../interfaces/dbConnection.interface";
 import { IPostInstance } from "../../../models/post.models";
+import { handleError } from "../../../utils/utils";
 
 export const postResolvers = {
 
@@ -29,15 +30,18 @@ export const postResolvers = {
                     limit: first,
                     offset: offset
                 })
+                .catch(handleError)
         }, 
 
         post: (parent, { id }, { db }: { db: IDbConnection}, info: GraphQLResolveInfo) => {
+            id = parseInt(id);
             return db.Post
                 .findById(id)
                 .then((post: IPostInstance) => {
                     if(!post) throw new Error(`Post with id ${id} not found`);                    
                     return post;
                 })
+                .catch(handleError)
         }
     },
 
@@ -47,6 +51,7 @@ export const postResolvers = {
                 return db.Post
                     .create(input, { transaction: t });
             })
+            .catch(handleError)
         },
 
         uptadePost: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -59,6 +64,7 @@ export const postResolvers = {
                         return post.update(input, { transaction: t })
                     })
             })
+            .catch(handleError)
         },
 
         deletePost: (parent, { id}, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -72,6 +78,7 @@ export const postResolvers = {
                             .then((post) => !!post)
                     })
             })
+            .catch(handleError)
         },
     }
 

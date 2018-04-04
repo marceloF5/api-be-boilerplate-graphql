@@ -3,6 +3,7 @@ import { Transaction } from 'sequelize';
 
 import { IDbConnection } from '../../../interfaces/dbConnection.interface';
 import { IUserInstance } from '../../../models/user.models';
+import { handleError } from '../../../utils/utils';
 
 
 export const userResolvers = {
@@ -14,6 +15,7 @@ export const userResolvers = {
                     limit: first,
                     offset: offset
                 })
+                .catch(handleError)
         }
     }, 
 
@@ -23,16 +25,19 @@ export const userResolvers = {
                 .findAll({
                     limit: first,
                     offset: offset
-                });                
+                })
+                .catch(handleError);                
         },
 
         user: (parent, { id }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
+            id = parseInt(id);
             return db.User
                 .findById(id)
                 .then((user: IUserInstance) => {
                     if(!user) throw new Error(`User with id ${id} not found`);                    
                     return user;
                 })
+                .catch(handleError);
         }
     },
 
@@ -42,6 +47,7 @@ export const userResolvers = {
                 return db.User
                     .create(input, { transaction: t });
             })
+            .catch(handleError)
         },
 
         updateUser: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -54,6 +60,7 @@ export const userResolvers = {
                         return user.update(input, { transaction: t })
                     })
             })
+            .catch(handleError)
         },
 
         updateUserPassword: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -67,6 +74,7 @@ export const userResolvers = {
                             .then((user: IUserInstance) => !!user)
                     })
             })
+            .catch(handleError)
         },
 
         deleteUser: (parent, { id }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
@@ -79,6 +87,7 @@ export const userResolvers = {
                             .then(user => !!user);
                     })
             })
+            .catch(handleError)
 
         }
     }
