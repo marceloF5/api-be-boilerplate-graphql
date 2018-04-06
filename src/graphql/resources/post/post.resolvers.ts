@@ -54,7 +54,7 @@ export const postResolvers = {
             .catch(handleError)
         },
 
-        uptadePost: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
+        updatePost: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.Post

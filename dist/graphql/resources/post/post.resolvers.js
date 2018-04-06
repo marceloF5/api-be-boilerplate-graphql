@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = require("../../../utils/utils");
 exports.postResolvers = {
     Post: {
         author: (post, args, { db }, info) => {
@@ -21,16 +22,19 @@ exports.postResolvers = {
                 .findAll({
                 limit: first,
                 offset: offset
-            });
+            })
+                .catch(utils_1.handleError);
         },
         post: (parent, { id }, { db }, info) => {
+            id = parseInt(id);
             return db.Post
                 .findById(id)
                 .then((post) => {
                 if (!post)
                     throw new Error(`Post with id ${id} not found`);
                 return post;
-            });
+            })
+                .catch(utils_1.handleError);
         }
     },
     Mutation: {
@@ -38,9 +42,10 @@ exports.postResolvers = {
             return db.sequelize.transaction((t) => {
                 return db.Post
                     .create(input, { transaction: t });
-            });
+            })
+                .catch(utils_1.handleError);
         },
-        uptadePost: (parent, { id, input }, { db }, info) => {
+        updatePost: (parent, { id, input }, { db }, info) => {
             id = parseInt(id);
             return db.sequelize.transaction((t) => {
                 return db.Post
@@ -50,7 +55,8 @@ exports.postResolvers = {
                         throw new Error(`Post with id ${id} not found`);
                     return post.update(input, { transaction: t });
                 });
-            });
+            })
+                .catch(utils_1.handleError);
         },
         deletePost: (parent, { id }, { db }, info) => {
             id = parseInt(id);
@@ -63,7 +69,8 @@ exports.postResolvers = {
                     return post.destroy({ transaction: t })
                         .then((post) => !!post);
                 });
-            });
+            })
+                .catch(utils_1.handleError);
         },
     }
 };

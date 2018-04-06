@@ -50,7 +50,7 @@ export const userResolvers = {
             .catch(handleError)
         },
 
-        updateUser: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {
+        updateUser: (parent, { id, input }, { db }: { db: IDbConnection }, info: GraphQLResolveInfo) => {    
             id = parseInt(id);
             return db.sequelize.transaction((t: Transaction) => {
                 return db.User

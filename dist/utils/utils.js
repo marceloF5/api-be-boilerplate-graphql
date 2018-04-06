@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const bluebird_1 = require("bluebird");
 exports.normalizePort = (val) => {
     let port = (typeof val === 'string') ? parseInt(val) : val;
     if (isNaN(port))
@@ -35,4 +36,9 @@ exports.onListening = (server) => {
         let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
         console.log(`Listening at ${bind}...`);
     };
+};
+exports.handleError = (error) => {
+    let errorMessage = `${error.name}: ${error.message}`;
+    console.log(errorMessage);
+    return bluebird_1.Promise.reject(new Error(errorMessage));
 };
