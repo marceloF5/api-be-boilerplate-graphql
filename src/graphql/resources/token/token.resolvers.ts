@@ -12,6 +12,10 @@ export const tokenResolvers = {
                 let errorMessage: string = 'Unathorized, wrong email or password!'
                 if(!user || !user.isPassword(user.get('password'), password)) { throw new Error(errorMessage); }
 
+                const payload = {sub: user.get('id')};
+                return {
+                    token: ''
+                }
 
             })
         }
