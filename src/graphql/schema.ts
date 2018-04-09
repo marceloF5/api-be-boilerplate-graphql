@@ -32,8 +32,8 @@ export default makeExecutableSchema({
         Mutation,
         commentTypes,
         postTypes,
-        tokenTypes
-        userTypes,
+        tokenTypes,
+        userTypes
     ],
     resolvers
 }); 
