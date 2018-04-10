@@ -1,5 +1,8 @@
+import * as jwt from 'jsonwebtoken';
+
 import { IDbConnection } from "../../../interfaces/dbConnection.interface";
 import { IUserInstance } from "../../../models/user.models";
+import { JWT_SECRET } from '../../../utils/utils';
 
 export const tokenResolvers = {
     Mutation: {
@@ -14,7 +17,7 @@ export const tokenResolvers = {
 
                 const payload = {sub: user.get('id')};
                 return {
-                    token: ''
+                    token: jwt.sign(payload, JWT_SECRET)
                 }
 
             })
