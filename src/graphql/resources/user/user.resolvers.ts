@@ -23,12 +23,12 @@ export const userResolvers = {
 
     Query: {
         users: compose(authResolver, verifyTokenResolver)((parent, { first = 10 , offset = 0 }, {db}: { db: IDbConnection }, info: GraphQLResolveInfo) => {            
-            console.log('ENTROU NO USERS')
+            console.log('ENTROU NO USERS');
             return db.User
                 .findAll({
                     limit: first,
                     offset: offset
-                })
+                })  
                 .catch(handleError);                
         }),
 

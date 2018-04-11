@@ -47,4 +47,4 @@ exports.throwError = (condition, message) => {
         throw new Error(message);
     }
 };
-exports.JWT_SECRET = process.env.JWT_SECRET;
+exports.JWT_SECRET = 'iron_man'; //process.env.JWT_SECRET;

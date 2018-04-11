@@ -28,9 +28,8 @@ export const extractJwtMiddleware = (): RequestHandler => {
                         id: user.get('id'),
                         email: user.get('email')
                     }
-                } else {
-                    return next();
-                }
+                } 
+                return next();                
             })
         });
     }

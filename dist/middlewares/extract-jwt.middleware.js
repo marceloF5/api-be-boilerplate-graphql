@@ -27,9 +27,7 @@ exports.extractJwtMiddleware = () => {
                         email: user.get('email')
                     };
                 }
-                else {
-                    return next();
-                }
+                return next();
             });
         });
     };
